@@ -3,11 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import User from './users';
 import { loadStorage, getFriends, saveStorage, register, login } from './util';
-import useServerState from './useServerState';
+import useCacheState from './useServerState';
 
 const App: React.FC<{}> = () => {
   const [allow_cookie, setAllow_cookie] = useState(false);
-  const [state, setState] = useServerState(true, (state) => {
+  const [state, setState, updateCache] = useCacheState(true, (state) => {
     setName(state?.username)
   });
   const [name, setName] = useState("")
@@ -19,7 +19,9 @@ const App: React.FC<{}> = () => {
       let val = loadStorage(true, { key: "allow_cookie" });
       return val === "true" ? true : false
     });
-
+    return () => {
+      updateCache(state, allow_cookie);
+    }
   }, [])
   // get Friends
   useEffect(() => {
@@ -41,6 +43,7 @@ const App: React.FC<{}> = () => {
           e => {
             e.preventDefault();
             saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
+            updateCache(state, true)
             setAllow_cookie(true);
           }
         }>Allow</button><button key={"cd"} className={allow_cookie === false ? "active" : undefined} onClick={e => {
@@ -91,10 +94,11 @@ const App: React.FC<{}> = () => {
         friends && <label> User list:
        <div>
             {friends.map((friend, idx) =>
-              <button className="user" key={idx + (Math.random() * 100)} onClick={e => {
+              <button className="user" key={`${idx} + ${(Math.random() * 100)}`} onClick={e => {
                 e.preventDefault();
                 console.log(friend)
-              }}><span>{`Connect to \n ${friend.username}`}</span></button>
+
+              }}><span key={idx}>{`Connect to \n ${friend.username}`}</span></button>
             )}
           </div>
         </label>

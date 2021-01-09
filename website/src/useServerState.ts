@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import User from "./users";
 import { loadStorage, saveStorage } from "./util";
-const useServerState = (allow_cookie: boolean, callback?: (state: User) => void): [User, (user: User, allow_cookie: boolean) => void] => {
+const useCacheState = (allow_cookie: boolean, callback?: (state: User) => void): [User, (user: User, allow_cookie: boolean) => void, (user: User, allow_cookie: boolean) => void] => {
     const [state, setState] = useState(undefined as unknown as User);
     useEffect(() => {
         let token = loadStorage(allow_cookie, { key: "token" });
@@ -13,14 +13,18 @@ const useServerState = (allow_cookie: boolean, callback?: (state: User) => void)
         }
     }, [])
     const set = (response: User, allow_cookie: boolean) => {
-        if (allow_cookie) {
-            if (response.token) { saveStorage(allow_cookie, { key: "token", value: response.token }) };
-            if (response.username) { saveStorage(allow_cookie, { key: "username", value: response.username }) };
-        }
+        saveStateToCache(response, allow_cookie);
         setState(response);
     }
+    const saveStateToCache = (lstate?: User, allow_cookie?: boolean) => {
+        let istate = lstate ? lstate : state;
+        if (allow_cookie) {
+            if (istate?.token) { saveStorage(allow_cookie, { key: "token", value: istate.token }) };
+            if (istate?.username) { saveStorage(allow_cookie, { key: "username", value: istate.username }) };
+        }
+    }
     return [
-        state, set
+        state, set, saveStateToCache
     ]
 }
-export default useServerState;
+export default useCacheState;
