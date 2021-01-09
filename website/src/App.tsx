@@ -38,20 +38,21 @@ const App: React.FC<{}> = () => {
   }, [state])
   return (
     <div className="App">
-      <label>Cookies
-        <button key={"ca"} className={allow_cookie === true ? "active" : undefined} onClick={
+      <div className="header">
+        <span>Cookies
+        <button key={0} className={allow_cookie === true ? "active" : undefined} onClick={
           e => {
             e.preventDefault();
             saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
             updateCache(state, true)
             setAllow_cookie(true);
           }
-        }>Allow</button><button key={"cd"} className={allow_cookie === false ? "active" : undefined} onClick={e => {
+        }>Allow</button><button key={1} className={allow_cookie === false ? "active" : undefined} onClick={e => {
           e.preventDefault();
           localStorage.clear();
           setAllow_cookie(false);
         }}>Deny</button>
-      </label>
+        </span>
       <label> Server:
       <input value={url} onChange={e => {
           e.preventDefault();
@@ -82,7 +83,7 @@ const App: React.FC<{}> = () => {
           Login
         </button>
       </label>
-
+      </div>
       <br />
       {
         state && <h2>
@@ -91,17 +92,17 @@ const App: React.FC<{}> = () => {
       }
       <br />
       {
-        friends && <label> User list:
+        friends && <div><label> User list:</label>
        <div>
             {friends.map((friend, idx) =>
-              <button className="user" key={`${idx} + ${(Math.random() * 100)}`} onClick={e => {
+              <button className={`user ${idx}`} id={`${idx}`} key={`${idx} + ${(Math.random() * 100)}`} onClick={e => {
                 e.preventDefault();
                 console.log(friend)
 
               }}><span key={idx}>{`Connect to \n ${friend.username}`}</span></button>
             )}
           </div>
-        </label>
+        </div>
       }
     </div>
   );
