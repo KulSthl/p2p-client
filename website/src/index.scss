@@ -5,6 +5,9 @@ $highlight: #E072A4;
 $locked   : #B0E298;
 
 body {
+  font-size: 16px;
+  width    : 100vw;
+  height   : 100vh;
   color           : $accent;
   background-color: $back;
   margin          : 0;
@@ -58,7 +61,12 @@ input {
 label {
   padding: 0.5em;
 }
-
+.App {
+  text-align    : center;
+  display       : inline-flex;
+  flex-direction: column;
+  height        : 100vh;
+}
 .user {
   height         : 10em;
   width          : 10em;
@@ -71,5 +79,40 @@ label {
   height: 4em;
   width : 10em;
 }
+.content {
+  height  : calc(100vh - 6em);
+  width   : 100vw;
+  overflow: auto;
+}
 
-.header {}
+.logo {
+  height: 4em;
+  width : 4em;
+}
+
+.header>* {
+  align-self: normal;
+}
+
+.header {
+  z-index         : 10;
+  background-color: $back;
+  display         : inline-flex;
+  height          : 2em;
+  align-items     : center;
+  justify-content : center;
+  fill            : $back;
+
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
+}
+
+.footer {
+  z-index         : 10;
+  justify-content : center;
+  height          : 2em;
+  display         : inline-flex;
+  width           : 100%;
+  background-color: $back;
+}

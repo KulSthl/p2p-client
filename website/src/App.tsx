@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import User from './users';
 import { loadStorage, getFriends, saveStorage, register, login } from './util';
 import useCacheState from './useServerState';
@@ -39,20 +38,7 @@ const App: React.FC<{}> = () => {
   return (
     <div className="App">
       <div className="header">
-        <span>Cookies
-        <button key={0} className={allow_cookie === true ? "active" : undefined} onClick={
-          e => {
-            e.preventDefault();
-            saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
-            updateCache(state, true)
-            setAllow_cookie(true);
-          }
-        }>Allow</button><button key={1} className={allow_cookie === false ? "active" : undefined} onClick={e => {
-          e.preventDefault();
-          localStorage.clear();
-          setAllow_cookie(false);
-        }}>Deny</button>
-        </span>
+        <img className="logo " src={logo} />
       <label> Server:
       <input value={url} onChange={e => {
           e.preventDefault();
@@ -85,6 +71,7 @@ const App: React.FC<{}> = () => {
       </label>
       </div>
       <br />
+      <div className='content'>
       {
         state && <h2>
           {`Hello ${state.username}`}
@@ -104,6 +91,23 @@ const App: React.FC<{}> = () => {
           </div>
         </div>
       }
+      </div>
+      <div className={'footer'}>
+        <span>Cookies
+        <button key={0} className={allow_cookie === true ? "active" : undefined} onClick={
+            e => {
+              e.preventDefault();
+              saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
+              updateCache(state, true)
+              setAllow_cookie(true);
+            }
+          }>Allow</button><button key={1} className={allow_cookie === false ? "active" : undefined} onClick={e => {
+            e.preventDefault();
+            localStorage.clear();
+            setAllow_cookie(false);
+          }}>Deny</button>
+        </span>
+      </div>
     </div>
   );
 }
