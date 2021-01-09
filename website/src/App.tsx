@@ -2,12 +2,26 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import User from './users';
+import { loadStorage, getFriends, saveStorage, register, login } from './util';
+import useServerState from './useServerState';
 
 const App: React.FC<{}> = () => {
-  const [state, setState] = useState(undefined as unknown as User)
+  const [allow_cookie, setAllow_cookie] = useState(false);
+  const [state, setState] = useServerState(true, (state) => {
+    setName(state?.username)
+  });
   const [name, setName] = useState("")
-  const [friends, setFriends] = useState(new Array<User>())
+  const [friends, setFriends] = useState(undefined as unknown as User[])
   const [url, setUrl] = useState("http://localhost:5002")
+  //check cookie
+  useEffect(() => {
+    setAllow_cookie(_ => {
+      let val = loadStorage(true, { key: "allow_cookie" });
+      return val === "true" ? true : false
+    });
+
+  }, [])
+  // get Friends
   useEffect(() => {
     if (state?.token !== undefined) {
       getFriends(state.token, url, (response) => {
@@ -22,11 +36,24 @@ const App: React.FC<{}> = () => {
   }, [state])
   return (
     <div className="App">
+      <label>Cookies
+        <button key={"ca"} className={allow_cookie === true ? "active" : undefined} onClick={
+          e => {
+            e.preventDefault();
+            saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
+            setAllow_cookie(true);
+          }
+        }>Allow</button><button key={"cd"} className={allow_cookie === false ? "active" : undefined} onClick={e => {
+          e.preventDefault();
+          localStorage.clear();
+          setAllow_cookie(false);
+        }}>Deny</button>
+      </label>
       <label> Server:
       <input value={url} onChange={e => {
           e.preventDefault();
           setUrl(_ => {
-            return e.target.value
+            return e.target.value.trim()
           })
         }} />
       </label>
@@ -34,82 +61,46 @@ const App: React.FC<{}> = () => {
       <input value={name} onChange={e => {
           e.preventDefault();
           setName(_ => {
-            return e.target.value
+            return e.target.value.trim()
           })
         }} />
         <button onClick={e => {
           register(name, url, (response) => {
-            setState(response);
+            setState(response, allow_cookie);
           }).catch(_ => { })
         }}>
           Register
         </button>
         <button onClick={e => {
           login(name, url, (response) => {
-            setState(response);
+            setState(response, allow_cookie);
           }).catch(_ => { })
         }}>
           Login
         </button>
       </label>
 
-      <br></br>
-      <label> Connect to peer:
+      <br />
+      {
+        state && <h2>
+          {`Hello ${state.username}`}
+        </h2>
+      }
+      <br />
+      {
+        friends && <label> User list:
        <div>
-          {friends.map((friend, idx) =>
-            <button key={idx} onClick={e => {
-              e.preventDefault();
-              console.log(friend)
-            }}>{`Connect to ${friend.username}`}</button>
-          )}
-        </div>
-      </label>
-      <div>
-        Chat
-      </div>
+            {friends.map((friend, idx) =>
+              <button className="user" key={idx + (Math.random() * 100)} onClick={e => {
+                e.preventDefault();
+                console.log(friend)
+              }}><span>{`Connect to \n ${friend.username}`}</span></button>
+            )}
+          </div>
+        </label>
+      }
     </div>
   );
 }
-const register = async (name: string, url: string, callback: (response: User) => void) => {
-  const response = await fetch(`${url}/register`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      username: name
-    } as User), // string or object
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-  const json = await response.json(); //extract JSON from the http response
-  callback(json);
-  // do something with myJson
-}
-const login = async (name: string, url: string, callback: (response: User) => void) => {
-  const response = await fetch(`${url}/login`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      username: name
-    } as User), // string or object
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-  const json = await response.json(); //extract JSON from the http response
-  callback(json);
-  // do something with myJson
-}
-const getFriends = async (token: string, url: string, callback: (response: Array<User>) => void) => {
-  const response = await fetch(`${url}/users`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      token: token
-    }), // string or object
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-  const json = await response.json(); //extract JSON from the http response
-  callback(json);
-  // do something with myJson
-}
+
 export default App;

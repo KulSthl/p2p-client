@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+button {
+  padding: 0.5em;
+  margin : 0.1em;
+}
+
+button.active {
+  background-color: lightblue;
+}
+
+input {
+  padding: 0.5em;
+}
+
+label {
+  padding: 0.5em;
+}
+
+.user {
+  height         : 10em;
+  width          : 10em;
+  display        : inline-flex;
+  justify-content: center;
+  align-items    : center;
+}
+
+.user>span {
+  height: 2em;
+}
