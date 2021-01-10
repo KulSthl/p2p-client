@@ -18,11 +18,11 @@
 }
 
 .settings {
-    padding       : 4em;
+    padding : 2em;
     z-index       : 100;
     text-align    : center;
     display       : inline-flex;
-    width         : min-content;
+    // width         : min-content;
     height        : min-content;
     align-self    : center;
     flex-direction: column;
