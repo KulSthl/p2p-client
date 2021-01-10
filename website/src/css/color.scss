@@ -1,0 +1,61 @@
+$back     : #3D3B8E;
+$front    : #6883BA;
+$accent   :#F9F9F9;
+$highlight: #E072A4;
+$locked   : #B0E298;
+
+* {
+    color: $accent
+}
+
+.card {
+    background-color: $back;
+}
+
+.header {
+    background-color: $back;
+    fill            : $back;
+}
+
+.footer {
+    background-color: $back;
+}
+
+body {
+    color           : $accent;
+    background-color: $back;
+}
+
+h2 {
+    background-color: $front;
+}
+
+button {
+    background-color: $front;
+    color           : $accent;
+}
+
+button:hover {
+    background-color: $highlight;
+}
+
+button.active {
+    background-color: $locked;
+}
+
+input {
+    background-color: $accent;
+}
+
+.MuiDrawer-paper {
+    background-color: $front !important;
+    color           : $accent !important;
+}
+
+.settings {
+    background-color: $back;
+}
+
+.MuiSvgIcon-root {
+    color: $accent !important;
+}

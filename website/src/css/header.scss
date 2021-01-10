@@ -1,0 +1,44 @@
+.header * {}
+
+.header {
+    z-index        : 10;
+    display        : inline-flex;
+    height         : 3em;
+    align-items    : center;
+    justify-content: center;
+
+}
+
+
+.header.mobile {}
+
+.header img {
+    height: 3em;
+    width : 3em;
+}
+
+.settings {
+    padding       : 4em;
+    z-index       : 100;
+    text-align    : center;
+    display       : inline-flex;
+    width         : min-content;
+    height        : min-content;
+    align-self    : center;
+    flex-direction: column;
+}
+
+.content.settings {
+    margin: 0px;
+    height: inherit;
+    width : inherit;
+}
+
+.footer.settings {
+    width: 70%;
+}
+
+
+.header label {
+    @media screen and (max-width: 700px) {}
+}
