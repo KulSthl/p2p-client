@@ -1,80 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import User from '../users';
 import { loadStorage, getFriends, saveStorage, register, login } from '../util';
-import useCacheState from '../costumHooks/useServerState';
+import useCacheState from '../costumHooks/useCacheState';
 import { Context, AppContext } from '../context/context';
 import { Header } from './Header';
 import { setupMaster } from 'cluster';
+import { Cookie } from './Cookie';
+import { Room, IRoom } from './Room'
+import { Login } from './Login';
 
 const App: React.FC<{}> = () => {
-  const [allow_cookie, setAllow_cookie] = useState(false);
-  const [user, setUser, updateCache] = useCacheState(true);
+  const [allow_cookie, set_allow_cookie, set_cache_allow_cookie] = useCacheState('allow_cookie', false);
+  const [user, setUser, updateCache] = useCacheState('user', undefined as unknown as User, allow_cookie);
   const [url, setUrl] = useState("http://localhost:5002")
   const [friends, setFriends] = useState(undefined as unknown as User[])
   const [mobile, setMobile] = useState(true);
-
+  const [room, setRoom] = useState(undefined as unknown as IRoom)
+  const [step, setStep] = useState(0)
   //check cookie
   useEffect(() => {
-    setAllow_cookie(_ => {
-      let val = loadStorage(true, { key: "allow_cookie" });
-      return val === "true" ? true : false
-    });
-    return () => {
-      updateCache(user, allow_cookie);
-    }
-  }, [])
-  // get Friends
-  useEffect(() => {
-    if (user?.token !== undefined) {
-      getFriends(user.token, url, (response) => {
-        console.log(response)
-        try {
-          setFriends(response)
-        } catch (error) {
-
-        }
-      }).catch(_ => { })
-    }
-  }, [user])
+    let val = loadStorage(true, { key: "allow_cookie" }) === true ? true : false;
+    set_allow_cookie(val);
+  }, []);
   return (
-    <AppContext.Provider value={{ user, setUser, url, setUrl, allow_cookie, mobile, setMobile }}>
+    <AppContext.Provider value={{ step, setStep, user, setUser, url, setUrl, allow_cookie, mobile, setMobile, set_allow_cookie, room: room, setRoom: setRoom }}>
       <div className="App">
         <Header allow_cookie={allow_cookie} />
+        <div className="scrollable">
+
+
         <div className='content'>
           {
-            user && <h2>
+              user === undefined ? <Login />
+                :
+                <div className='inner-content'>
+                  <h2>
               {`Hello ${user.username}`}
-            </h2>
-          }
-          {
-            friends && <div><label> User list:</label>
-              <div>
-                {friends.map((friend, idx) =>
-                  <button className={`user ${idx}`} id={`${idx}`} key={`${idx} + ${(Math.random() * 100)}`} onClick={e => {
-                    e.preventDefault();
-                    console.log(friend)
-
-                  }}><span key={idx}>{`Connect to \n ${friend.username}`}</span></button>
-                )}
-              </div>
+                  </h2>
+          
+                  <Room />
+                </div>
+            }
+            <div className={'footer'}>
+              <Cookie
+              />
             </div>
-          }
-        </div>
-        <div className={'footer'}>
-          <span>Cookies
-        <button key={0} className={allow_cookie === true ? "active" : undefined} onClick={
-              e => {
-                e.preventDefault();
-                saveStorage(true, { key: "allow_cookie", value: new String(true).toString() })
-                updateCache(user, true)
-                setAllow_cookie(true);
-              }
-            }>Allow</button><button key={1} className={allow_cookie === false ? "active" : undefined} onClick={e => {
-              e.preventDefault();
-              localStorage.clear();
-              setAllow_cookie(false);
-            }}>Deny</button>
-          </span>
+          </div>
         </div>
       </div>
     </AppContext.Provider>

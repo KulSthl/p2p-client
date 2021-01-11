@@ -41,17 +41,21 @@ h2 {
     background-color: $front;
 }
 
+.btn,
 button {
     background-color: $front;
     color           : $accent;
 }
 
+.btn:hover,
 button:hover {
     background-color: $highlight;
 }
 
+.btn.active,
 button.active {
     background-color: $locked;
+    color:black
 }
 
 

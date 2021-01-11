@@ -1,8 +1,3 @@
-$back     : #3D3B8E;
-$front    : #6883BA;
-$accent   :#F9F9F9;
-$highlight: #E072A4;
-$locked   : #B0E298;
 
 body {
   font-size: 16px;
@@ -24,7 +19,11 @@ code {
 h2 {
   box-shadow: 2px 2px 12px #000000;
 }
+#root {
+  width: 100vw;
+}
 
+.btn,
 button {
   border-radius  : 2px;
   padding        : 1em;
@@ -37,10 +36,12 @@ button {
   transition     : background-color 0.4s;
 }
 
+.btn,
 button:hover {
   opacity: 1;
 }
 
+.btn.active,
 button.active {
   box-shadow: 0px 0px 0px #000000;
 }
@@ -60,6 +61,7 @@ label {
   display       : inline-flex;
   flex-direction: column;
   height        : 100vh;
+  width: 100vw;
 }
 
 .user {
@@ -74,13 +76,20 @@ label {
   height: 4em;
   width : 10em;
 }
-
-.content {
-  height  : calc(100vh - 6em);
-  width   : 100vw;
+.scrollable {
   overflow: auto;
 }
 
+.content {
+  height     : calc(100vh - 3em);
+  text-align : center;
+  display    : flex;
+  flex-wrap  : wrap;
+  justify-content: center;
+}
+.inner-content {
+  
+}
 .logo {
   height: 4em;
   width : 4em;
@@ -100,4 +109,5 @@ label {
   height         : 3em;
   display        : inline-flex;
   width          : 100%;
+  align-self: flex-end;
 }

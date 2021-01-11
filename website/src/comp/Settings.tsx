@@ -1,5 +1,6 @@
 import { Modal } from '@material-ui/core'
 import Dialog from '@material-ui/core/Dialog'
+import Grow from '@material-ui/core/Grow'
 import React from 'react'
 import { useState } from 'react'
 export interface SettingsProps {
@@ -27,7 +28,7 @@ export const Settings: React.FC<SettingsProps> = (props) => {
             </button>
                     </div>
                 </div>
-            </Dialog>
+                </Dialog>
         </div>
     )
 }

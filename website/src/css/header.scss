@@ -1,14 +1,39 @@
 .header * {}
-
-.header {
-    z-index        : 10;
-    display        : inline-flex;
-    height         : 3em;
-    align-items    : center;
-    justify-content: center;
+.shadow {
 
 }
+.header {
+    box-shadow : 2px 2px 6px #000000;
+    z-index        : 10;
+    display : flex;
+    height         : 3em;
+    align-items    : center;
+    justify-content: space-between;
+    }
 
+    .header>.left,
+    .header>.middle,
+    .header>.right {
+        display    : flex;
+        align-items: center;
+        width      : 33vw;
+
+        * {
+            box-shadow: none;
+        }
+    }
+
+    .middle {
+    justify-content: center;
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.right {
+    justify-content: flex-end;
+}
 
 .header.mobile {}
 

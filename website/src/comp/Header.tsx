@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "../context/context";
 import "../css/header.scss"
 import logo from '../img/logo.svg';
-import { register, login } from "../util";
+import User from "../users";
+import { register, login, instanceOfError } from "../util";
 import { Settings } from "./Settings";
 
 export interface HeaderProps {
@@ -42,45 +43,43 @@ export const Header: React.FC<HeaderProps> = () => {
     return (
         <>
             <div className={`header ${mobile ? "mobile" : "desktop"}`}>
-                <Settings button={
-                    <img src={logo} />
-                }>
-                    <>
-                        <div className="card">
-                            <label> Server: <input value={url} onChange={e => {
-                                e.preventDefault();
-                                setUrl(e.target.value.trim())
-                            }} />
-                            </label>
-                        </div >
+                <div className="left">
+                </div>
+                <div className='middle'>
 
-                        <div className="card">
-                            <label> Name:
-                                <input value={name} onChange={e => {
+                    <label>MyApp</label>
+                    <img src={logo} />
+
+                </div>
+
+
+                <div className="right">
+                    <Settings button={<button>
+                        Settings
+                    </button>
+                    }>
+                        <>
+                            <div className="card">
+                                <label> Server: <input value={url} onChange={e => {
                                     e.preventDefault();
-                                    setName(_ => {
-                                        return e.target.value.trim()
-                                    })
+                                    setUrl(e.target.value.trim())
                                 }} />
-                            </label>
-                            <button onClick={() => {
-                                register(name, url, (response) => {
-                                    setUser(response, allow_cookie);
-                                }).catch(_ => { })
-                            }}>
-                                Register
-                        </button>
-                            <button onClick={() => {
-                                login(name, url, (response) => {
-                                    setUser(response, allow_cookie);
-                                }).catch(_ => { })
-                            }}>
-                                Login
-                        </button>
-                        </div>
-                    </>
-                </Settings>
-                <label>MyApp</label>
+                                </label>
+                            </div >
+                        </>
+                    </Settings>
+
+
+                    {
+                        user !== undefined &&
+                        <button className={'btn logout'} onClick={e => {
+                            e.preventDefault();
+                            setUser(undefined as unknown as User)
+                        }}>
+                            Logout
+                    </button>
+                    }
+                </div>
             </div>
 
 
