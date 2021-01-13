@@ -174,3 +174,10 @@ export const loadStorage = (bool: boolean, obj: { key: string }): null | string 
     }
     return null;
 }
+export const getServerUrl = (): string => {
+    let url = new URL(window.location.href);
+    if (url.origin === "http://localhost:3000" || url.origin === "http://localhost:3001") {
+        return "http://localhost:5002"
+    }
+    return url.origin
+}

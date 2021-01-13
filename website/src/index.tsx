@@ -5,7 +5,8 @@ import './css/color.scss';
 import './css/mui.scss';
 import App from './comp/App';
 import reportWebVitals from './reportWebVitals';
-
+import { getServerUrl } from './util';
+getServerUrl()
 ReactDOM.render(
   <React.StrictMode>
     <App />
