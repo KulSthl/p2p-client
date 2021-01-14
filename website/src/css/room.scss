@@ -2,8 +2,16 @@
     display       : flex;
     flex-direction: row;
 }
+button.btn.room {
+    width: 6em;
+}
 
-.room-create {}
+.room-create {
+    display        : flex;
+    flex-wrap      : wrap;
+    align-content  : center;
+    justify-content: center;
+}
 
 .room-container {
     display  : flex;
@@ -13,12 +21,10 @@
 
 .card.room {
     max-width     : 90vw;
-    flex          : 1 1 auto;
-    flex-direction: row;
+
     padding       : 1em;
     margin        : 1em;
-    box-shadow    : 2px 2px 3px #000;
-    flex-flow     : wrap;
+    box-shadow : 2px 2px 3px #000;
 }
 
 .single-room-content {}

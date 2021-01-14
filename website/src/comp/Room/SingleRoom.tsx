@@ -1,6 +1,6 @@
 // import Grow from "@material-ui/core/Grow";
 import Grow from "@material-ui/core/Grow";
-import React from "react";
+import React, { useMemo } from "react";
 import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { AppContext } from "../../context/context";
@@ -25,19 +25,39 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
             setFinishedLoading(true);
         })
     }, [room])
+    const createRUsers = () => {
+
+        let roomUsers = [] as JSX.Element[];
+        rUsers.forEach((_user, idx) => {
+            if (_user.username === user.username) {
+                roomUsers.unshift(<div className={`room-user card ${(_user.active) ? "active" : ""}`}>
+                    {(idx < 3) ? <label>{"You"}</label> : <label>{"You"}</label>}
+                </div>)
+            }
+            else {
+                roomUsers.push(<div className={`room-user card ${(_user.active) ? "active" : ""}`}>
+                    <label>{_user.username}</label>
+                </div>)
+            }
+        })
+        return roomUsers;
+    }
+
     return (<Grow in={finishedLoading} timeout={nmbr * 50}><div className="card room btn"
         onClick={() => {
             console.log(room);
             setRoom(room)
             setStep(1)
-        }}><label>
-            {room.name}
-        </label>
+        }}><div>
+            <label>
+                {room.name}
+            </label>
+        </div>
+        <span className="room wrap">
         {
-            rUsers.map((_user, idx) => <div className={`room-user card ${(_user.active) ? "active" : ""}`}>
-                {(idx < 3) ? <label>{_user.username}</label> : <label>{rUsers.length - 3 + "more"}</label>}
-            </div>)
+                createRUsers()
         }
+        </span>
     </div>
     </Grow>)
 }
