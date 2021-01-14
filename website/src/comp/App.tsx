@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import User from '../users';
+import User from '../interfaces/users';
 import { loadStorage, getFriends, saveStorage, register, login, getServerUrl } from '../util';
 import useCacheState from '../costumHooks/useCacheState';
 import { Context, AppContext } from '../context/context';
@@ -12,6 +12,7 @@ import { Login } from './Login';
 const App: React.FC<{}> = () => {
   const [allow_cookie, set_allow_cookie, set_cache_allow_cookie] = useCacheState('allow_cookie', false);
   const [user, setUser, updateCache] = useCacheState('user', undefined as unknown as User, allow_cookie);
+  const [settings, setSettings] = useState({})
   const [url, setUrl] = useState(getServerUrl())
   const [friends, setFriends] = useState(undefined as unknown as User[])
   const [mobile, setMobile] = useState(true);
@@ -23,7 +24,7 @@ const App: React.FC<{}> = () => {
     set_allow_cookie(val);
   }, []);
   return (
-    <AppContext.Provider value={{ step, setStep, user, setUser, url, setUrl, allow_cookie, mobile, setMobile, set_allow_cookie, room: room, setRoom: setRoom }}>
+    <AppContext.Provider value={{ step, setStep, user, setUser, url, setUrl, allow_cookie, mobile, setMobile, set_allow_cookie, room: room, setRoom: setRoom, settings, setSettings }}>
       <div className="App">
         <Header allow_cookie={allow_cookie} />
         <div className="scrollable">

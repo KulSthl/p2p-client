@@ -1,6 +1,7 @@
 import React from "react";
 import { IRoom } from "../comp/Room/Room";
-import User from "../users";
+import User from "../interfaces/users";
+import { ISettings } from "../interfaces/settings";
 
 export interface Context {
     user: User;
@@ -15,6 +16,8 @@ export interface Context {
     setRoom: (room: IRoom) => void;
     step: number;
     setStep: (number: number) => void;
+    settings: Partial<ISettings>;
+    setSettings: (obj: ISettings) => void;
 }
 export const AppContext = React.createContext(
     {

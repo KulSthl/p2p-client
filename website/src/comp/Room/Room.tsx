@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useReducer, useState } from "react"
 import { AppContext } from "../../context/context"
 import useCacheState from "../../costumHooks/useCacheState";
-import { createRoom, getRoom, instanceOfError, joinRoom } from "../../util";
+import { createRoom, getRoom, instanceOfError, joinRoom, leaveRoom } from "../../util";
 import '../../css/room.scss'
 import { SingleRoom } from "./SingleRoom";
 import Collapse from "@material-ui/core/Collapse";
@@ -45,6 +45,7 @@ export const Room: React.FC<RoomProps> = (props) => {
                 <Collapse in={step === 0 ? true : false}>
 
                     <>
+                        <h2>Create or join a room:</h2>
                         <div className="room-create">
                             <div>
                                 <input className="room input" value={newRoom} onChange={e => {
@@ -108,6 +109,13 @@ export const Room: React.FC<RoomProps> = (props) => {
 
                         }}>
                             {" Copy Id "}
+                        </button>
+                        <button className="btn" onClick={e => {
+                            e.preventDefault();
+                            leaveRoom(user.token, room.id, url, () => { setStep(0) })
+
+                        }}>
+                            Leave
                         </button>
                         <input ref={copyInput} className="copy-link" value={room.id} readOnly style={{
                             position: "fixed", opacity: 0, pointerEvents: "none"

@@ -1,20 +1,22 @@
 // import Grow from "@material-ui/core/Grow";
+
 import Grow from "@material-ui/core/Grow";
 import React, { useMemo } from "react";
 import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { AppContext } from "../../context/context";
-import User from "../../users";
-import { getRoomUsers, instanceOfError } from "../../util";
+import User from "../../interfaces/users";
+import { getRoomUsers, instanceOfError, leaveRoom } from "../../util";
+import { IconButton } from "../IconButton";
 import { IRoom } from "./Room";
-
+import { ReactComponent as CloseIcon } from "../../img/close.svg"
 export interface SingleRoomProps {
     room: IRoom;
     nmbr: number;
     disableGrow?: boolean
 }
 export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
-    const { user, setRoom, url, setStep } = useContext(AppContext)
+    const { user, setRoom, url, setStep, settings } = useContext(AppContext)
     const [rUsers, setRUsers] = useState([] as User[])
     const [finishedLoading, setFinishedLoading] = useState(false)
     useEffect(() => {
@@ -30,9 +32,14 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
         let roomUsers = [] as JSX.Element[];
         rUsers.forEach((_user, idx) => {
             if (_user.username === user.username) {
-                roomUsers.unshift(<div className={`room-user card ${(_user.active) ? "active" : ""}`}>
-                    {(idx < 3) ? <label>{"You"}</label> : <label>{"You"}</label>}
-                </div>)
+                if (settings?.showMeInRooms) {
+                    roomUsers.unshift(<div className={`room-user card ${(_user.active) ? "active" : ""}`}>
+                        {(idx < 3) ? <label>{"You"}</label> : <label>{"You"}</label>}
+                    </div>)
+                }
+                else {
+
+                }
             }
             else {
                 roomUsers.push(<div className={`room-user card ${(_user.active) ? "active" : ""}`}>
@@ -48,7 +55,7 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
             console.log(room);
             setRoom(room)
             setStep(1)
-        }}><div>
+        }}><div className="single-room-header">
             <label>
                 {room.name}
             </label>

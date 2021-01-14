@@ -1,5 +1,5 @@
 import { IRoom } from "./comp/Room/Room";
-import User from "./users";
+import User from "./interfaces/users";
 interface IError {
     id: number;
     message: string;
@@ -75,7 +75,7 @@ export const createRoom = async (token: string, room_name: string, url: string, 
         ).catch(err => { console.error(err) });
     // do something with myJson
 }
-export const joinRoom = async (token: string, room_id: string, url: string, callback: (response: IRoom | IError) => void) => {
+export const joinRoom = async (token: string, room_id: string, url: string, callback: () => void) => {
     await fetch(`${url}/api/room/join`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -86,11 +86,8 @@ export const joinRoom = async (token: string, room_id: string, url: string, call
             'Content-Type': 'application/json'
         },
     })
-        .then(res => res.json())
-        .then(json => {
-            callback(json)
-        }
-        ).catch(err => { console.error(err) });
+        .then(res => { if (res.ok) callback() })
+        .catch(err => { console.error(err) });
     // do something with myJson
 }
 export const getRoom = async (token: string, url: string, callback: (response: Array<IRoom> | IError) => void) => {
@@ -128,22 +125,17 @@ export const getRoomUsers = async (token: string, room_id: string, url: string, 
         ).catch(err => { console.error(err) });
     // do something with myJson
 }
-export const leaveRoom = async (token: string, room_id: string, url: string, callback: (response: IRoom | IError) => void) => {
+export const leaveRoom = async (token: string, room_id: string, url: string, callback: () => void) => {
     fetch(`${url}/api/room/leave`, {
         method: 'PUT',
         body: JSON.stringify({
-            token: token,
-
-        }), // string or object
+            token,
+            room_id
+        }),
         headers: {
             'Content-Type': 'application/json'
         },
-    })
-        .then(res => res.json())
-        .then(json => {
-            callback(json)
-        }
-        ).catch(err => { console.error(err) });
+    }).then((res) => { if (res.ok) callback() }).catch(err => { console.error(err) });
     // do something with myJson
 }
 export const logout = async (token: string, url: string, callback: (response: {} | IError) => void) => {
