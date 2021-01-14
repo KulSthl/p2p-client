@@ -1,74 +1,71 @@
-$back     : #3D3B8E;
-$front    : #6883BA;
-$accent   :#F9F9F9;
-$highlight: #E072A4;
-$locked   : #B0E298;
+
 
 * {
-    color: $accent
+    color: var(--col-accent)
 }
 input {
-    background-color: $accent;
+    background-color: var(--col-accent);
+    background-color: var(--col-accent);
     color           : black;
-    border          : 1px solid $back;
+    border : 1px solid var(--col-back);
     outline         : none;
     transition      : all 50ms;
 }
 
 input:focus {
-    box-shadow: 4 4 5px $highlight;
-    border    : 1px solid $highlight;
+    box-shadow: 4 4 5px var(--col-highlight);
+    border    : 1px solid var(--col-highlight);
 }
 .card {
-    background-color: $back;
+    background-color: var(--col-back);
 }
 
 .header {
-    background-color: $back;
-    fill            : $back;
+    background-color: var(--col-back);
+    fill            : var(--col-back);
 }
 
 .footer {
-    background-color: $back;
+    background-color: var(--col-back);
 }
 
 body {
-    color           : $accent;
-    background-color: $back;
+    color : var(--col-accent);
+    background-color: var(--col-back);
 }
 
 h2 {
-    background-color: $front;
+    background-color: var(--col-front);
 }
 
 .btn,
 button {
-    background-color: $front;
-    color           : $accent;
+    background-color: var(--col-front);
+    color           : var(--col-accent);
 }
 
 .btn:hover,
 button:hover {
-    background-color: $highlight;
+    background-color: var(--col-highlight);
 }
 
 .btn.active,
 button.active {
-    background-color: $locked;
+    background-color: var(--col-locked);
     color:black
 }
 
 
 
 .MuiDrawer-paper {
-    background-color: $front !important;
-    color           : $accent !important;
+    background-color: var(--col-front) !important;
+    color           : var(--col-accent) !important;
 }
 
 .settings {
-    background-color: $back;
+    background-color: var(--col-back);
 }
 
 .MuiSvgIcon-root {
-    color: $accent !important;
+    color: var(--col-accent) !important;
 }

@@ -52,7 +52,6 @@ export const Header: React.FC<HeaderProps> = () => {
 
                 </div>
 
-
                 <div className="right">
                     <Settings button={<button>
                         Settings

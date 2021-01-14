@@ -1,2 +1,4 @@
 website/.eslintcache
 
+.DS_Store
+website/src/comp/App.tsx
