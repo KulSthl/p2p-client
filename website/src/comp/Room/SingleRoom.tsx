@@ -1,15 +1,17 @@
+// import Grow from "@material-ui/core/Grow";
 import Grow from "@material-ui/core/Grow";
 import React from "react";
 import { useEffect } from "react";
 import { useContext, useState } from "react";
-import { AppContext } from "../context/context";
-import User from "../users";
-import { getRoomUsers, instanceOfError } from "../util";
+import { AppContext } from "../../context/context";
+import User from "../../users";
+import { getRoomUsers, instanceOfError } from "../../util";
 import { IRoom } from "./Room";
 
 export interface SingleRoomProps {
     room: IRoom;
     nmbr: number;
+    disableGrow?: boolean
 }
 export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
     const { user, setRoom, url, setStep } = useContext(AppContext)
@@ -23,7 +25,7 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
             setFinishedLoading(true);
         })
     }, [room])
-    return (<Grow in={finishedLoading} appear timeout={nmbr * 50}><div className="card room btn"
+    return (<Grow in={finishedLoading} timeout={nmbr * 50}><div className="card room btn"
         onClick={() => {
             console.log(room);
             setRoom(room)
@@ -32,8 +34,8 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
             {room.name}
         </label>
         {
-            rUsers.map((_user) => <div className={`room-user card ${(user.active) ? "active" : ""}`}>
-                <label>{_user.username}</label>
+            rUsers.map((_user, idx) => <div className={`room-user card ${(user.active) ? "active" : ""}`}>
+                {(idx < 3) ? <label>{_user.username}</label> : <label>{rUsers.length - 3 + "more"}</label>}
             </div>)
         }
     </div>

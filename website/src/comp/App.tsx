@@ -6,7 +6,7 @@ import { Context, AppContext } from '../context/context';
 import { Header } from './Header';
 import { setupMaster } from 'cluster';
 import { Cookie } from './Cookie';
-import { Room, IRoom } from './Room'
+import { Room, IRoom } from './Room/Room'
 import { Login } from './Login';
 
 const App: React.FC<{}> = () => {

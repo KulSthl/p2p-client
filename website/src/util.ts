@@ -1,4 +1,4 @@
-import { IRoom } from "./comp/Room";
+import { IRoom } from "./comp/Room/Room";
 import User from "./users";
 interface IError {
     id: number;

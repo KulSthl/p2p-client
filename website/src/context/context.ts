@@ -1,5 +1,5 @@
 import React from "react";
-import { IRoom } from "../comp/Room";
+import { IRoom } from "../comp/Room/Room";
 import User from "../users";
 
 export interface Context {

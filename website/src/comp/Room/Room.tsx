@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useMemo, useReducer, useState } from "react"
-import { AppContext } from "../context/context"
-import useCacheState from "../costumHooks/useCacheState";
-import { createRoom, getRoom, instanceOfError, joinRoom } from "../util";
-import '../css/room.scss'
+import { AppContext } from "../../context/context"
+import useCacheState from "../../costumHooks/useCacheState";
+import { createRoom, getRoom, instanceOfError, joinRoom } from "../../util";
+import '../../css/room.scss'
 import { SingleRoom } from "./SingleRoom";
-import { Collapse } from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
+
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import { useRef } from "react";
@@ -43,50 +44,53 @@ export const Room: React.FC<RoomProps> = (props) => {
             <div className="room-content">
                 <Collapse in={step === 0 ? true : false}>
 
-                    {user && <>
+                    <>
                         <div className="room-create">
-                            <input className="room input" value={newRoom} onChange={e => {
-                                e.preventDefault();
-                                if (e.target.value.length < 10) setNewRoom(_ => {
-                                    return e.target.value.trim()
-                                })
-                            }} placeholder={"Name"} />
-                            <button className="btn room create" onClick={
-                                e => {
+                            <div>
+                                <input className="room input" value={newRoom} onChange={e => {
                                     e.preventDefault();
-                                    createRoom(user.token, newRoom, url, () => {
-                                        getRoom(user.token, url, (res) => {
-                                            if (!instanceOfError(res)) {
-                                                setRooms(res)
-                                            };
-                                        })
+                                    if (e.target.value.length < 10) setNewRoom(_ => {
+                                        return e.target.value.trim()
                                     })
-                                }
-                            }>Create</button>
-                            <input className="room input" value={loginId} onChange={e => {
-                                e.preventDefault();
-                                setLoginId(_ => {
-                                    return e.target.value.trim()
-                                })
-                            }} placeholder="Id" />
-                            <button className="btn room join" onClick={
-                                e => {
+                                }} placeholder={"Name"} />
+                                <button className="btn room create" onClick={
+                                    e => {
+                                        e.preventDefault();
+                                        createRoom(user.token, newRoom, url, () => {
+                                            getRoom(user.token, url, (res) => {
+                                                if (!instanceOfError(res)) {
+                                                    setRooms(res)
+                                                };
+                                            })
+                                        })
+                                    }
+                                }>Create</button>
+                            </div>
+                            <div>
+                                <input className="room input" value={loginId} onChange={e => {
                                     e.preventDefault();
-                                    joinRoom(user.token, loginId, url, () => {
-                                        getRoom(user.token, url, (res) => {
-                                            if (!instanceOfError(res)) {
-                                                setRooms(res)
-                                            };
-                                        })
+                                    setLoginId(_ => {
+                                        return e.target.value.trim()
                                     })
-                                }
-                            }>Join</button>
+                                }} placeholder="Id" />
+                                <button className="btn room join" onClick={
+                                    e => {
+                                        e.preventDefault();
+                                        joinRoom(user.token, loginId, url, () => {
+                                            getRoom(user.token, url, (res) => {
+                                                if (!instanceOfError(res)) {
+                                                    setRooms(res)
+                                                };
+                                            })
+                                        })
+                                    }
+                                }>Join</button></div>
                         </div>
                         {rooms !== [] && <h2 className="room-headline">Available Rooms</h2>}
                         <div className="room-container">
                             {rooms_jsx}
                         </div>
-                    </>}
+                    </>
                 </Collapse>
                 <Collapse in={step === 1 ? true : false}>
                     {room && <div className="room-active">
@@ -107,7 +111,7 @@ export const Room: React.FC<RoomProps> = (props) => {
                         </button>
                         <input ref={copyInput} className="copy-link" value={room.id} readOnly style={{ position: "absolute", zIndex: -200, bottom: 0 }} />
                         <div className="single-room-content">
-                            <SingleRoom room={room} key={"ActiveRoom" + Math.random()} nmbr={10} />
+                            <SingleRoom room={room} key={"ActiveRoom" + Math.random()} nmbr={10} disableGrow />
                         </div>
                     </div>}
                 </Collapse>
