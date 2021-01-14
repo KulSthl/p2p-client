@@ -109,7 +109,9 @@ export const Room: React.FC<RoomProps> = (props) => {
                         }}>
                             {" Copy Id "}
                         </button>
-                        <input ref={copyInput} className="copy-link" value={room.id} readOnly style={{ position: "absolute", zIndex: -200, bottom: 0 }} />
+                        <input ref={copyInput} className="copy-link" value={room.id} readOnly style={{
+                            position: "fixed", opacity: 0, pointerEvents: "none"
+                        }} />
                         <div className="single-room-content">
                             <SingleRoom room={room} key={"ActiveRoom" + Math.random()} nmbr={10} disableGrow />
                         </div>
