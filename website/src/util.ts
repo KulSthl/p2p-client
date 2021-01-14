@@ -146,6 +146,19 @@ export const leaveRoom = async (token: string, room_id: string, url: string, cal
         ).catch(err => { console.error(err) });
     // do something with myJson
 }
+export const logout = async (token: string, url: string, callback: (response: {} | IError) => void) => {
+    fetch(`${url}/api/users/logout`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            token: token,
+        }), // string or object
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .catch(err => { console.error(err) });
+    // do something with myJson
+}
 export const saveStorage = (bool: boolean, obj: { key: string, value: any }) => {
     if (bool) {
         if (obj.value !== undefined && obj.value !== null) {

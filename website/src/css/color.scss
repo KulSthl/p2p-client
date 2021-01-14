@@ -19,7 +19,9 @@ input:focus {
 .card {
     background-color: var(--col-back);
 }
-
+.card.active {
+    background-color: var(--col-locked);
+}
 .header {
     background-color: var(--col-back);
     fill            : var(--col-back);

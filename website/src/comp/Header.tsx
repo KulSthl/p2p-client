@@ -3,7 +3,7 @@ import { AppContext } from "../context/context";
 import "../css/header.scss"
 import logo from '../img/logo.svg';
 import User from "../users";
-import { register, login, instanceOfError, getServerUrl } from "../util";
+import { register, login, instanceOfError, getServerUrl, logout } from "../util";
 import { Settings } from "./Settings";
 
 export interface HeaderProps {
@@ -73,7 +73,9 @@ export const Header: React.FC<HeaderProps> = () => {
                         user !== undefined &&
                         <button className={'btn logout'} onClick={e => {
                             e.preventDefault();
-                            setUser(undefined as unknown as User)
+                            setUser(undefined as unknown as User);
+                            logout(user.token, url, () => { });
+                            localStorage.clear();
                         }}>
                             Logout
                     </button>

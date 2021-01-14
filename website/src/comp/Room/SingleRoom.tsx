@@ -34,7 +34,7 @@ export const SingleRoom: React.FC<SingleRoomProps> = ({ room, nmbr }) => {
             {room.name}
         </label>
         {
-            rUsers.map((_user, idx) => <div className={`room-user card ${(user.active) ? "active" : ""}`}>
+            rUsers.map((_user, idx) => <div className={`room-user card ${(_user.active) ? "active" : ""}`}>
                 {(idx < 3) ? <label>{_user.username}</label> : <label>{rUsers.length - 3 + "more"}</label>}
             </div>)
         }
