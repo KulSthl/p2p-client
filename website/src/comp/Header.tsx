@@ -3,7 +3,7 @@ import { AppContext } from "../context/context";
 import "../css/header.scss"
 import logo from '../img/logo.svg';
 import User from "../users";
-import { register, login, instanceOfError } from "../util";
+import { register, login, instanceOfError, getServerUrl } from "../util";
 import { Settings } from "./Settings";
 
 export interface HeaderProps {
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = () => {
         if (mobile === true) setDrawMenu(false)
     }, [mobile])
     useEffect(() => {
-        setUrl("http://localhost:5002")
+        setUrl(getServerUrl())
     }, [])
     useEffect(() => {
         setName(user?.username ? user.username : "")
